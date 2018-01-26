@@ -5,7 +5,7 @@
    after all.
    ---------------------------------------------------------*/
     body {
-   
+        background-color: rgb(220, 220, 220);
     }
     /* Default link styling */
     a:link { color:#0271fb; }
@@ -20,17 +20,18 @@
    ---------------------------------------------------------*/
 
     .bar {
-        fill: steelblue;
+        fill: #7f9bdb;
+        stroke: none;
     }
     
     .bar:hover {
-    fill: brown;
+        fill: white;
+        stroke: none;
     }
     
-    .axis path,
     .axis line{
       fill: none;
-      stroke: black;
+      stroke: #000;
     }
 
     
