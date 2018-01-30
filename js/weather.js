@@ -40,6 +40,7 @@ var drawWeather = function (requestedYear, countryFile) {
         g.selectAll(".month")
             .data(yearData.months)
             .enter().append('g')
+            .attr("class", "month")
             .each(drawMonth)
 
         function drawMonth(d, i) {

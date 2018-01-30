@@ -4,14 +4,14 @@
    you to simply add your own. This is a basic template 
    after all.
    ---------------------------------------------------------*/
-    body {
-        background-color: rgb(220, 220, 220);
+   body {
+    background-color:rgb(220, 220, 220);
     }
-    /* Default link styling */
-    a:link { color:#0271fb; }
-    a:visited { color:#bd02fb; }
-    a:hover, a:focus { color:#000; }
-    a:active { color:#fb0e02; }
+/* Default link styling */
+a:link { color:#0271fb; }
+a:visited { color:#bd02fb; }
+a:hover, a:focus { color:#000; }
+a:active { color:#fb0e02; }
     
     
     
@@ -20,12 +20,12 @@
    ---------------------------------------------------------*/
 
     .bar {
-        fill: #7f9bdb;
-        stroke: none;
+        fill:#7f9bdb;
+        stroke:none;
     }
     
     .bar:hover {
-        fill: white;
+        fill:white;
         stroke: none;
     }
     
