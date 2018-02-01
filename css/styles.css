@@ -16,11 +16,16 @@ a:active { color:#fb0e02; }
     
     
 /* ---------------------------------------------------------
-   Author's styles
+   Viz styles
    ---------------------------------------------------------*/
 
-    .bar {
+    .bar-ils {
         fill:#7f9bdb;
+        stroke:none;
+        opacity: 0.5;
+    }
+    .bar-de {
+        fill:#be6347;
         stroke:none;
     }
     
@@ -28,11 +33,27 @@ a:active { color:#fb0e02; }
         fill:white;
         stroke: none;
     }
-    
+    .x path{
+        stroke: none;
+    }
+    .axis text{
+        font-size: 1.5em;
+        font-weight: 700;
+        fill: rgb(150,150,150); 
+    }
     .axis line{
       fill: none;
-      stroke: #000;
+      stroke: none;
     }
+
+    /* ---------------------------------------------------------
+   Page styles
+   ---------------------------------------------------------*/
+ .center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
 
     
 /* ---------------------------------------------------------
