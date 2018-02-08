@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link href="css/normalize.css" rel="stylesheet" media="all">
     <link href="css/styles.css" rel="stylesheet" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
-    <script type="text/javascript" src="js/weather.js"></script>
+    <!-- <script type="text/javascript" src="js/weather.js"></script> -->
+    <script type="text/javascript" src="js/weather_prcp.js"></script>
 
 </head>
 <body>
@@ -24,12 +26,14 @@
 
     <div class="wrap">
         <main role="main">
+            <select id="years-to-select"></select>
             <div id="vis" class="center">
-            <svg id='weather'></svg>
+            <div id='weather'></svg>
             <script>
                 // IS000006771.json
                 // GME00111445.json
-              drawWeather('2003');
+            //   drawWeather('2011');
+            drawPrcp();
             </script>
             </div>
         </main>
