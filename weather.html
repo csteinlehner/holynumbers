@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Weather</title>
@@ -16,6 +17,7 @@
     <script type="text/javascript" src="js/weather_prcp.js"></script>
 
 </head>
+
 <body>
     <header role="banner">
         <h1>Weather Jerusalem / Berlin</h1>
@@ -26,25 +28,34 @@
 
     <div class="wrap">
         <main role="main">
-            <select id="years-to-select"></select>
-            <div id="vis" class="center">
-            <div id='weather'></svg>
-            <script>
-                // IS000006771.json
-                // GME00111445.json
-            //   drawWeather('2011');
-            drawPrcp();
-            </script>
+            <div id="year-navigation" class="center">
+                <button id="prev">prev</button>
+                <select id="years-to-select"></select>
+                <button id="next">next</button>
             </div>
+            <div id="vis" class="center">
+                <div id='weather'>
+                    </svg>
+                    <script>
+                        // IS000006771.json
+                        // GME00111445.json
+                        //   drawWeather('2011');
+                        drawPrcp();
+                    </script>
+                </div>
         </main>
-    </div>
+        </div>
 
-    <footer role="contentinfo">
-        <address>
-          <p>For further information, please contact <a href="mailto:admin@example.com">Max Mustermann</a>.</p>
-        </address>
-        <small>Copyright &copy; <time datetime="2016">2016</time></small>
-    </footer>
+        <footer role="contentinfo">
+            <address>
+                <p>For further information, please contact
+                    <a href="mailto:admin@example.com">Max Mustermann</a>.</p>
+            </address>
+            <small>Copyright &copy;
+                <time datetime="2016">2016</time>
+            </small>
+        </footer>
 
 </body>
+
 </html>

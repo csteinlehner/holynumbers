@@ -14,6 +14,21 @@ var countryFileDE = "GME00111445-PRCP.json",
     countryFileIL = "IS000006771-PRCP.json";
 var requestedYear = "2012";
 var maxHeight = 1800;
+
+var monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+];
 // var svg;
 
 var drawPrcp = function() {
@@ -60,6 +75,7 @@ var drawPrcp = function() {
                 .select("#years-to-select")
                 .on("change", function(d) {
                     var y = d3.select(this).property("value");
+                    checkButtonVis(y.toString());
                     render(y);
                 })
                 .selectAll("option")
@@ -73,9 +89,47 @@ var drawPrcp = function() {
                     return d;
                 });
         }
+        function setupBtn(){
+            d3.select("#next")
+            .on("click",selectNext);
+
+            d3.select("#prev")
+            .on("click",selectPrev)
+        }
+
         fillSelector();
+        setupBtn();
+        checkButtonVis(yearList[0]);
         render(yearList[0]);
     });
+
+    function selectNext(){
+        var nextSelection = parseInt(d3.select("#years-to-select").node().value)+1;
+        d3.select("#years-to-select").property("value",nextSelection);
+        render((nextSelection).toString());
+        checkButtonVis(nextSelection);
+    }
+
+    function selectPrev(){
+        var prevSelection = parseInt(d3.select("#years-to-select").node().value)-1;
+        d3.select("#years-to-select").property("value",prevSelection);
+        render((prevSelection).toString());
+        checkButtonVis(prevSelection);
+    }
+
+    function checkButtonVis(selection){
+        if(yearList[yearList.length -1] == selection){
+            d3.select("#next").style("visibility","hidden");
+        }else{
+            d3.select("#next").style("visibility","visible");
+        }
+        if(yearList[0] == selection){
+            d3.select("#prev").style("visibility","hidden");
+        }else{
+            d3.select("#prev").style("visibility","visible");
+        }
+    }
+
 
     function initSVG() {
         svg.selectAll("*").remove();
@@ -104,7 +158,7 @@ var drawPrcp = function() {
             .range([0, 15]);
 
         var drawCircles = function() {
-            var g = createSVGGroupRadial(pos);
+            var g = createSVGGroupRadial(pos, "circles");
             // console.log(arcHeight.ticks(10));
             var circles = g
                 .selectAll("circle")
@@ -122,17 +176,68 @@ var drawPrcp = function() {
 
         drawCircles();
 
+        var drawRadialMonthLines = function() {
+            var g = createSVGGroupRadial(pos, "monthLines");
+            var lines = g
+                .selectAll("line")
+                .data(monthNames)
+                .enter()
+                .append("line")
+                .attr("y1", -innerRing)
+                .attr("y2", -barHeight-10)
+                .attr("class", "monthline")
+                .attr("transform", function(d, i) {
+                    return "rotate(" + i * 360 / monthNames.length + ")";
+                });
+        };
+        drawRadialMonthLines();
+       
+
+        var drawRadialMonthLabels = function() {
+            var labelRadius = barHeight * 1.025;
+    
+            var labels = createSVGGroupRadial(pos, "monthnames");
+            labels
+                //.attr("class", "labels")
+                .append("def")
+                .append("path")
+                .attr("id", "label-path")
+                .attr(
+                    "d",
+                    "m0 " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,1 -0.01 0"
+                );
+            labels
+                .selectAll("text")
+                .data(monthNames)
+                .enter()
+                .append("text")
+                .style("text-anchor", "middle")
+                .style("font-weight", "bold")
+                .style("fill", "#3e3e3e")
+                .append("textPath")
+                .attr("class", "textpath")
+                .attr("xlink:href", "#label-path")
+                .attr("startOffset", function(d, i) {
+                    return i * 100 / 12 + 50 / 12 + "%";
+                })
+                .text(function(d) {
+                    return d;
+                });
+        };
+
+        
+
         var drawAvgCircle = function() {
-            var g = createSVGGroupRadial(pos);
+            var g = createSVGGroupRadial(pos, "avg-circle");
             g
                 .append("circle")
                 .attr("r", arcHeight(yearStats.avg))
-                .attr("class", "avg-circle");
+                .attr("class", "avg-circle-"+cntr);
         };
 
         drawAvgCircle();
 
-        createSVGGroupRadial(pos)
+        createSVGGroupRadial(pos, "bars")
             .selectAll(".weeks")
             .data(yearData.weeks)
             .enter()
@@ -157,10 +262,10 @@ var drawPrcp = function() {
             .attr("class", "diagram-year")
             .attr("text-anchor", "middle")
             .attr("alignment-baseline", "central")
-            .text(requestedYear);
+            .text(cntr);
 
-        var drawRadialMonthLines = function() {
-            var g = createSVGGroupRadial(pos);
+        var drawRadialWeekLines = function() {
+            var g = createSVGGroupRadial(pos, "weeklines");
             var lines = g
                 .selectAll("line")
                 .data(yearData.weeks)
@@ -174,12 +279,12 @@ var drawPrcp = function() {
                 });
         };
 
-        // drawRadialMonthLines();
+        // drawRadialWeekLines();
 
-        var drawRadialLables = function() {
+        var drawRadialWeekLabels = function() {
             var labelRadius = barHeight;
 
-            var labels = createSVGGroupRadial(pos);
+            var labels = createSVGGroupRadial(pos, "weeklabels");
             labels
                 //.attr("class", "labels")
                 .append("def")
@@ -210,7 +315,7 @@ var drawPrcp = function() {
         // drawRadialLables();
 
         var drawRadialAxis = function() {
-            var g = createSVGGroupRadial(pos);
+            var g = createSVGGroupRadial(pos, "axisText");
             var xAxis = d3
                 .axisLeft()
                 .scale(arcHeight)
@@ -241,12 +346,15 @@ var drawPrcp = function() {
         };
 
         drawRadialAxis();
+        drawRadialMonthLabels();
+        
         // Total point in center
         // svg
         // .append("g")
         // .attr("transform", "translate(" + calcTranslate(pos) + ")")
         // .append("circle")
         // .attr("r",allScale(allYear.total));
+        
     }
 
     var calcTranslate = function(pos) {
@@ -257,9 +365,10 @@ var drawPrcp = function() {
         );
     };
 
-    var createSVGGroupRadial = function(pos) {
+    var createSVGGroupRadial = function(pos, id) {
         let g = svg
             .append("g")
+            .attr("class",id)
             .attr("transform", "translate(" + calcTranslate(pos) + ")")
             .attr("width", smallWidth - margin.left - margin.right)
             .attr("height", smallHeight - margin.top - margin.bottom);
