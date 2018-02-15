@@ -62,7 +62,7 @@ var drawWeather = function(requestedYear) {
 
         // drawBarSingle(yearDataIL);
         drawCircles();
-        drawRadialYearP(yearDataIL, "bar-de");
+        drawRadialYearP(yearDataDE, "bar-de");
         // drawRadialYearMinMax(yearDataIL, "bar-ils");
         
         drawRadialMonthLines(yearDataDE.months);
@@ -167,7 +167,6 @@ var drawWeather = function(requestedYear) {
 
     var drawRadialYearP = function(yearData, cntr) {
         var numBars = daysInYear(requestedYear);
-
         g = createSVGGroupRadial();
 
         var segments = g

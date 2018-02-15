@@ -12,8 +12,7 @@ var smallHeight = 400;
 var innerRing = 40;
 var countryFileDE = "GME00111445-PRCP.json",
     countryFileIL = "IS000006771-PRCP.json";
-var requestedYear = "2012";
-var maxHeight = 1800;
+var maxHeight = 120;
 
 var monthNames = [
     "Jan",
@@ -31,10 +30,17 @@ var monthNames = [
 ];
 // var svg;
 
-var drawPrcp = function() {
+var drawPrcp = function () {
     var q = d3.queue();
     var yearDataIL, yearDataDE;
     var allYearsIL, allYearsDE;
+
+    var barHeight = smallHeight * 0.5;
+    var arcHeight = d3
+        .scaleLinear()
+        .range([innerRing, barHeight])
+        // .domain([0, getMaxInYear(yearData, "PRCP")]);
+        .domain([0, maxHeight]);
 
     var svg = d3
         .select("#weather")
@@ -42,322 +48,358 @@ var drawPrcp = function() {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom);
 
-    q.defer(function(callback) {
-        d3.json("data/" + countryFileIL, function(error, wData) {
+    // Loading data
+    q.defer(function (callback) {
+        d3.json("data/" + countryFileIL, function (error, wData) {
             if (error) return console.error(error);
             allYearsIL = wData;
 
-            // console.log("IL "+getMaxForYears(wData));
             callback(null);
         });
     });
-    q.defer(function(callback) {
-        d3.json("data/" + countryFileDE, function(error, wData) {
+    q.defer(function (callback) {
+        d3.json("data/" + countryFileDE, function (error, wData) {
             if (error) return console.error(error);
             allYearsDE = wData;
-
-            // console.log("DE "+getMaxForYears(wData));
             callback(null);
         });
     });
 
-    q.awaitAll(function(error) {
+    q.awaitAll(function (error) {
         if (error) return console.error(error);
 
         function fillSelector() {
             yearList = [];
             for (var yy in allYearsIL.years) {
-                if (yy != 0 && yy != allYearsIL.years.length-1) {
+                if (yy != 0 && yy != allYearsIL.years.length - 1) {
                     yearList.push(allYearsIL.years[yy].key);
                 }
             }
             d3
                 .select("#years-to-select")
-                .on("change", function(d) {
+                .on("change", function (d) {
                     var y = d3.select(this).property("value");
                     checkButtonVis(y.toString());
-                    render(y);
+                    initRender(y);
                 })
                 .selectAll("option")
                 .data(yearList)
                 .enter()
                 .append("option")
-                .attr("value", function(d) {
+                .attr("value", function (d) {
                     return d;
                 })
-                .text(function(d) {
+                .text(function (d) {
                     return d;
                 });
         }
-        function setupBtn(){
-            d3.select("#next")
-            .on("click",selectNext);
 
-            d3.select("#prev")
-            .on("click",selectPrev)
+        function setupBtn() {
+            d3.select("#nextbtn").on("click", selectNext);
+
+            d3.select("#prevbtn").on("click", selectPrev);
         }
+
 
         fillSelector();
         setupBtn();
         checkButtonVis(yearList[0]);
-        render(yearList[0]);
+        initRender(yearList[0]);
     });
 
-    function selectNext(){
-        var nextSelection = parseInt(d3.select("#years-to-select").node().value)+1;
-        d3.select("#years-to-select").property("value",nextSelection);
-        render((nextSelection).toString());
+    function selectNext() {
+        var nextSelection = parseInt(d3.select("#years-to-select").node().value) + 1;
+        d3.select("#years-to-select").property("value", nextSelection);
+        updateRender(nextSelection.toString());
         checkButtonVis(nextSelection);
     }
 
-    function selectPrev(){
-        var prevSelection = parseInt(d3.select("#years-to-select").node().value)-1;
-        d3.select("#years-to-select").property("value",prevSelection);
-        render((prevSelection).toString());
+    function selectPrev() {
+        var prevSelection = parseInt(d3.select("#years-to-select").node().value) - 1;
+        d3.select("#years-to-select").property("value", prevSelection);
+        updateRender(prevSelection.toString());
         checkButtonVis(prevSelection);
     }
 
-    function checkButtonVis(selection){
-        if(yearList[yearList.length -1] == selection){
-            d3.select("#next").style("visibility","hidden");
-        }else{
-            d3.select("#next").style("visibility","visible");
+    function checkButtonVis(selection) {
+        if (yearList[yearList.length - 1] == selection) {
+            d3.select("#nextbtn").style("visibility", "hidden");
+        } else {
+            d3.select("#nextbtn").style("visibility", "visible");
         }
-        if(yearList[0] == selection){
-            d3.select("#prev").style("visibility","hidden");
-        }else{
-            d3.select("#prev").style("visibility","visible");
+        if (yearList[0] == selection) {
+            d3.select("#prevbtn").style("visibility", "hidden");
+        } else {
+            d3.select("#prevbtn").style("visibility", "visible");
         }
     }
-
 
     function initSVG() {
         svg.selectAll("*").remove();
     }
-    function render(requestedYear) {
+
+    function initRender(requestedYear) {
         initSVG();
         yearDataIL = getYearFromDataset(allYearsIL, requestedYear);
         yearDataDE = getYearFromDataset(allYearsDE, requestedYear);
-        drawRadialYearPrcp(yearDataIL, "Jerusalem", [1, 0]);
-        drawRadialYearPrcp(yearDataDE, "Berlin", [3, 0]);
+        initRadialYearPrcp(yearDataIL, "Jerusalem", [1, 0]);
+        initRadialYearPrcp(yearDataDE, "Berlin", [3, 0]);
+        initToolTip();
     }
 
-    function drawRadialYearPrcp(yearData, cntr, pos) {
+    function initToolTip() {
+        tooltip = d3.select("#weather").append("div")
+            .attr("class", "tooltip")
+            .attr("id", "hovertooltip")
+            .style("opacity", 0);
+    }
+
+    function updateRender(requestedYear) {
+        yearDataIL = getYearFromDataset(allYearsIL, requestedYear);
+        yearDataDE = getYearFromDataset(allYearsDE, requestedYear);
+        updateRadialYearPrcp(yearDataIL, "Jerusalem", [1, 0]);
+        updateRadialYearPrcp(yearDataDE, "Berlin", [3, 0]);
+    }
+
+    function initRadialYearPrcp(yearData, cntr, pos) {
         // var numBars = daysInYear(requestedYear);
-        var barHeight = smallHeight * 0.5;
-        var yearStats = getMaxTotalYear(yearData);
-        var arcHeight = d3
-            .scaleLinear()
-            .range([innerRing, barHeight])
-            // .domain([0, getMaxInYear(yearData, "PRCP")]);
-            .domain([0, maxHeight]);
+        var yearStats = getYearStats(yearData);
+        var parent = svg.append("g").attr("id", "vis-" + cntr);
 
-        var allScale = d3
-            .scaleLinear()
-            .domain([0, 10000])
-            .range([0, 15]);
+        var maxtooltip = d3.select("#weather").append("div")
+            .attr("class", "tooltip")
+            .attr("id", "maxtooltip-" + cntr)
+            .style("opacity", 1);
 
-        var drawCircles = function() {
-            var g = createSVGGroupRadial(pos, "circles");
-            // console.log(arcHeight.ticks(10));
-            var circles = g
-                .selectAll("circle")
-                .data(arcHeight.ticks(10))
-                .enter()
-                .append("circle")
-                .attr("r", function(d) {
-                    return arcHeight(d);
-                })
-                .style("fill", "none")
-                .style("stroke", "#999999")
-                // .style("stroke-dasharray", function(d,i){return String(i+1*4)+","+String(i+1*8)})
-                .style("stroke-width", ".5px");
-        };
+        drawCircles(pos, parent);
+        drawRadialMonthLines(pos, parent);
+        drawAvgCircle(pos, yearStats, cntr, parent);
 
-        drawCircles();
-
-        var drawRadialMonthLines = function() {
-            var g = createSVGGroupRadial(pos, "monthLines");
-            var lines = g
-                .selectAll("line")
-                .data(monthNames)
-                .enter()
-                .append("line")
-                .attr("y1", -innerRing)
-                .attr("y2", -barHeight-10)
-                .attr("class", "monthline")
-                .attr("transform", function(d, i) {
-                    return "rotate(" + i * 360 / monthNames.length + ")";
-                });
-        };
-        drawRadialMonthLines();
-       
-
-        var drawRadialMonthLabels = function() {
-            var labelRadius = barHeight * 1.025;
-    
-            var labels = createSVGGroupRadial(pos, "monthnames");
-            labels
-                //.attr("class", "labels")
-                .append("def")
-                .append("path")
-                .attr("id", "label-path")
-                .attr(
-                    "d",
-                    "m0 " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,1 -0.01 0"
-                );
-            labels
-                .selectAll("text")
-                .data(monthNames)
-                .enter()
-                .append("text")
-                .style("text-anchor", "middle")
-                .style("font-weight", "bold")
-                .style("fill", "#3e3e3e")
-                .append("textPath")
-                .attr("class", "textpath")
-                .attr("xlink:href", "#label-path")
-                .attr("startOffset", function(d, i) {
-                    return i * 100 / 12 + 50 / 12 + "%";
-                })
-                .text(function(d) {
-                    return d;
-                });
-        };
-
-        
-
-        var drawAvgCircle = function() {
-            var g = createSVGGroupRadial(pos, "avg-circle");
-            g
-                .append("circle")
-                .attr("r", arcHeight(yearStats.avg))
-                .attr("class", "avg-circle-"+cntr);
-        };
-
-        drawAvgCircle();
-
-        createSVGGroupRadial(pos, "bars")
-            .selectAll(".weeks")
+        createSVGGroupRadial(pos, "bars", parent)
+            .selectAll("weekbar-" + cntr)
             .data(yearData.weeks)
             .enter()
             .append("path")
             .attr("class", "weekbar-" + cntr)
-            .attr("id", function(d) {
+            .attr("id", function (d) {
+                return cntr+"-"+d.key;
+            })
+            .each(function (dd, i) {
+                calcArc(dd, i, yearData);
+            })
+            .attr("d", d3.arc())
+            // Tooltip
+            .on("mouseover", function (d) {
+                // console.log(parseFloat(d.startAngle)*2*Math.PI);		
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html("Week: " + d.key + "<br />" + d.value / 10 + " mm")
+                    // .style("transform","rotate("+parseFloat(d.startAngle)*(180 / Math.PI)+"deg)")
+                    .style("left", (d3.event.pageX + 20) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(250)
+                    .style("opacity", 0);
+            });
+
+        drawRadialAxisLabels(pos, parent);
+        drawRadialMonthLabels(pos, parent);
+        createSVGGroupRadial(pos, "center-label", parent);
+        drawCenterLabel(pos, cntr, parent, yearStats);
+    }
+
+    function updateRadialYearPrcp(yearData, cntr, pos) {
+        var yearStats = getYearStats(yearData);
+
+        updateAvgCircle(pos, yearStats, cntr);
+
+        var selection = d3
+            .select("#vis-" + cntr)
+            .select(".bars")
+            .selectAll(".weekbar-" + cntr)
+            .data(yearData.weeks);
+
+        selection
+            .enter()
+            .append("path")
+            .classed("weekbar-" + cntr, true)
+            .attr("id", function (d) {
                 return d.key;
             })
-            .each(function(dd, i) {
-                dd.innerRadius = arcHeight(0);
-                dd.outerRadius = arcHeight(+dd.value);
-                dd.startAngle = i * 2 * Math.PI / yearData.weeks.length;
-                dd.endAngle = (i + 1) * 2 * Math.PI / yearData.weeks.length;
+            .each(function (dd, i) {
+                calcArc(dd, i, yearData);
             })
             .attr("d", d3.arc());
 
-        // Year Text in center of Vis
-        svg
-            .append("g")
-            .attr("transform", "translate(" + calcTranslate(pos) + ")")
+        selection
+            .classed("weekbar-" + cntr, true)
+            .each(function (dd, i) {
+                calcArc(dd, i, yearData);
+            })
+            .attr("d", d3.arc());
+
+        selection.exit().remove();
+        drawCenterLabel(pos, cntr, parent, yearStats);
+    }
+
+    function calcArc(dd, i, yearData) {
+        dd.innerRadius = arcHeight(0);
+        dd.outerRadius = arcHeight(+dd.value / 10);
+        dd.startAngle = i * 2 * Math.PI / yearData.weeks.length;
+        dd.endAngle = (i + 1) * 2 * Math.PI / yearData.weeks.length;
+    }
+
+    function drawCircles(pos, parent) {
+        var g = createSVGGroupRadial(pos, "circles", parent);
+        var circles = g
+            .selectAll("circle")
+            .data(arcHeight.ticks(10))
+            .enter()
+            .append("circle")
+            .attr("r", function (d) {
+                return arcHeight(d);
+            })
+            .style("fill", "none")
+            .style("stroke", "#999999")
+            // .style("stroke-dasharray", function(d,i){return String(i+1*4)+","+String(i+1*8)})
+            .style("stroke-width", ".5px");
+    }
+
+    function drawRadialMonthLines(pos, parent) {
+        var g = createSVGGroupRadial(pos, "monthLines", parent);
+        var lines = g
+            .selectAll("line")
+            .data(monthNames)
+            .enter()
+            .append("line")
+            .attr("y1", -innerRing)
+            .attr("y2", -barHeight - 10)
+            .classed("monthline", true)
+            .attr("transform", function (d, i) {
+                return "rotate(" + i * 360 / monthNames.length + ")";
+            });
+    }
+
+    function drawRadialMonthLabels(pos, parent) {
+        var labelRadius = barHeight * 1.025;
+
+        var labels = createSVGGroupRadial(pos, "monthnames", parent);
+        labels
+            //.attr("class", "labels")
+            .append("def")
+            .append("path")
+            .attr("id", "label-path")
+            .attr(
+                "d",
+                "m0 " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,1 -0.01 0"
+            );
+        labels
+            .selectAll("text")
+            .data(monthNames)
+            .enter()
             .append("text")
-            .attr("class", "diagram-year")
+            .classed("monthlabels noselect", true)
+            .style("text-anchor", "middle")
+            .append("textPath")
+            .classed("textpath", true)
+            .attr("xlink:href", "#label-path")
+            .attr("startOffset", function (d, i) {
+                return i * 100 / 12 + 50 / 12 + "%";
+            })
+            .text(function (d) {
+                return d;
+            });
+    }
+
+    function drawAvgCircle(pos, yearStats, cntr, parent) {
+        var g = createSVGGroupRadial(pos, "avg-circle", parent);
+        g
+            .append("circle")
+            .attr("r", arcHeight(yearStats.avg))
+            .attr("class", "avg-circle-" + cntr);
+    }
+
+    function updateAvgCircle(pos, yearStats, cntr) {
+        var circle = d3.select("#vis-" + cntr).select(".avg-circle").select("circle");
+        circle
+            .attr("r", arcHeight(yearStats.avg))
+    }
+
+    function drawCenterLabel(pos, cntr, parent, yearStats) {
+        // Year Text in center of Vis
+        // var g = createSVGGroupRadial(pos, "center-label", parent);
+        var g = d3.select("#vis-" + cntr).select(".center-label");
+        g.selectAll("*").remove();
+        g
+            .append("text")
+            .classed("centerlabel noselect", true)
             .attr("text-anchor", "middle")
             .attr("alignment-baseline", "central")
             .text(cntr);
-
-        var drawRadialWeekLines = function() {
-            var g = createSVGGroupRadial(pos, "weeklines");
-            var lines = g
-                .selectAll("line")
-                .data(yearData.weeks)
-                .enter()
-                .append("line")
-                .attr("y2", -barHeight)
-                .style("stroke", "#999999")
-                .style("stroke-width", ".5px")
-                .attr("transform", function(d, i) {
-                    return "rotate(" + i * 360 / yearData.weeks.length + ")";
-                });
-        };
-
-        // drawRadialWeekLines();
-
-        var drawRadialWeekLabels = function() {
-            var labelRadius = barHeight;
-
-            var labels = createSVGGroupRadial(pos, "weeklabels");
-            labels
-                //.attr("class", "labels")
-                .append("def")
-                .append("path")
-                .attr("id", "label-path")
-                .attr(
-                    "d",
-                    "m0 " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,1 -0.01 0"
-                );
-            labels
-                .selectAll("text")
-                .data(yearData.weeks)
-                .enter()
-                .append("text")
-                .style("text-anchor", "middle")
-                // .style("font-weight", "light")
-                .style("fill", "#3e3e3e")
-                .append("textPath")
-                .attr("class", "textpath")
-                .attr("xlink:href", "#label-path")
-                .attr("startOffset", function(d, i) {
-                    return i * 100 / yearData.weeks.length + 50 / yearData.weeks.length + "%";
-                })
-                .text(function(d) {
-                    return d.key;
-                });
-        };
-        // drawRadialLables();
-
-        var drawRadialAxis = function() {
-            var g = createSVGGroupRadial(pos, "axisText");
-            var xAxis = d3
-                .axisLeft()
-                .scale(arcHeight)
-                // .tickFormat(d3.format(".2f"))
-                .ticks(10);
-
-            g
-                .append("g")
-                .attr("class", "x axis")
-                .call(xAxis);
-            g
-                .append("g")
-                .attr("class", "x axis")
-                .attr("transform", "rotate(90)")
-                .call(xAxis);
-            g
-                .selectAll(".tick")
-                .select("text")
-                .attr("y", -6)
-                .attr("x", 10)
-                .attr("alignment-baseline", "central");
-            g
-                .selectAll(".tick")
-                .filter(function(d, i) {
-                    return d === 0 || d % 400;
-                })
-                .remove();
-        };
-
-        drawRadialAxis();
-        drawRadialMonthLabels();
-        
-        // Total point in center
-        // svg
-        // .append("g")
-        // .attr("transform", "translate(" + calcTranslate(pos) + ")")
-        // .append("circle")
-        // .attr("r",allScale(allYear.total));
-        
+        g
+            .append("text")
+            .attr("transform", "translate(0,14)")
+            .classed("centerlabel-avg noselect", true)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "central")
+            .text("avg: " + Math.round(yearStats.avg) + " mm");
     }
 
-    var calcTranslate = function(pos) {
+    function drawRadialWeekLines(pos) {
+        var g = createSVGGroupRadial(pos, "weeklines");
+        var lines = g
+            .selectAll("line")
+            .data(yearData.weeks)
+            .enter()
+            .append("line")
+            .attr("y2", -barHeight)
+            .style("stroke", "#999999")
+            .style("stroke-width", ".5px")
+            .attr("transform", function (d, i) {
+                return "rotate(" + i * 360 / yearData.weeks.length + ")";
+            });
+    }
+
+    function drawRadialAxisLabels(pos, parent) {
+        var g = createSVGGroupRadial(pos, "axisText", parent);
+        var xAxis = d3
+            .axisLeft()
+            .scale(arcHeight)
+            // .tickFormat(d3.format(".2f"))
+            .ticks(4);
+
+        var finalDeg = 360;
+        var currentDeg = 60;
+        var stepSize = 90;
+        while (currentDeg < finalDeg) {
+            g
+                .append("g")
+                .attr("class", "x axis noselect")
+                .attr("transform", "rotate(" + currentDeg + ")")
+                .call(xAxis)
+                .selectAll("text")
+                .attr("y", -6)
+                .attr("x", 10)
+                .attr("transform", function () {
+                    var rot = (currentDeg > 60 && currentDeg < 270) ? 180 : 0;
+                    return "rotate(" + rot + ")";
+                })
+                .attr("alignment-baseline", "central");
+            currentDeg += stepSize;
+        }
+
+        g
+            .selectAll(".tick")
+            .filter(function (d, i) {
+                return d === 0 || !(d % 40);
+            })
+            .remove();
+    }
+
+    var calcTranslate = function (pos) {
         return (
             (smallWidth * pos[0] + margin.left + margin.right * pos[0]) / 2 +
             "," +
@@ -365,10 +407,10 @@ var drawPrcp = function() {
         );
     };
 
-    var createSVGGroupRadial = function(pos, id) {
-        let g = svg
+    var createSVGGroupRadial = function (pos, id, parent) {
+        var g = parent
             .append("g")
-            .attr("class",id)
+            .attr("class", id)
             .attr("transform", "translate(" + calcTranslate(pos) + ")")
             .attr("width", smallWidth - margin.left - margin.right)
             .attr("height", smallHeight - margin.top - margin.bottom);
@@ -377,7 +419,7 @@ var drawPrcp = function() {
 };
 
 function getYearFromDataset(wData, requestedYear) {
-    let yearData;
+    var yearData;
     // Iterate through all years to find the right one
     for (var yy in wData.years) {
         if (wData.years[yy].key == requestedYear) yearData = wData.years[yy];
@@ -405,34 +447,53 @@ function daysInYear(year) {
 }
 
 function getCumulativeYear(yData) {
-    let all = 0;
-    yData.weeks.map(function(d) {
-        all += d.value;
+    var all = 0;
+    yData.weeks.map(function (d) {
+        all += d.value / 10;
     });
     return all;
 }
+
 function getMaxYear(yData) {
-    let max = 0;
-    yData.weeks.map(function(d) {
-        max = d.value > max ? d.value : max;
+    var max = 0;
+    yData.weeks.map(function (d) {
+        max = d.value / 10 > max ? d.value / 10 : max;
     });
     return max;
 }
 
 function getMaxForYears(data) {
-    let max = 0;
-    data.years.map(function(d) {
-        d.weeks.map(function(dd) {
-            max = dd.value > max ? dd.value : max;
+    var max = 0;
+    data.years.map(function (d) {
+        d.weeks.map(function (dd) {
+            max = dd.value / 10 > max ? dd.value / 10 : max;
         });
     });
     return max;
 }
 
-function getMaxTotalYear(yData) {
-    let yearStats = new Object();
+function getYearStats(yData) {
+    var yearStats = new Object();
     yearStats.max = getMaxYear(yData);
     yearStats.total = getCumulativeYear(yData);
-    yearStats.avg = parseFloat(yearStats.total) / parseFloat(yData.weeks.length);
+    yearStats.avg = yearStats.total / yData.weeks.length;
+    var allWeeksVals = yData.weeks.map(function (d, i) {
+        return d.value;
+    });
+    yearStats.median = median(allWeeksVals);
     return yearStats;
+}
+
+function median(values) {
+
+    values.sort(function (a, b) {
+        return a - b;
+    });
+
+    var half = Math.floor(values.length / 2);
+
+    if (values.length % 2)
+        return values[half];
+    else
+        return (values[half - 1] + values[half]) / 2.0;
 }
