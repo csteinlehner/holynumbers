@@ -134,12 +134,8 @@ var drawPrcp = function () {
         }
     }
 
-    function initSVG() {
-        svg.selectAll("*").remove();
-    }
-
     function initRender(requestedYear) {
-        initSVG();
+        svg.selectAll("*").remove();
         yearDataIL = getYearFromDataset(allYearsIL, requestedYear);
         yearDataDE = getYearFromDataset(allYearsDE, requestedYear);
         initRadialYearPrcp(yearDataIL, "Jerusalem", [1, 0]);
@@ -162,7 +158,6 @@ var drawPrcp = function () {
     }
 
     function initRadialYearPrcp(yearData, cntr, pos) {
-        // var numBars = daysInYear(requestedYear);
         var yearStats = getYearStats(yearData);
         var parent = svg.append("g").attr("id", "vis-" + cntr);
 
@@ -348,21 +343,6 @@ var drawPrcp = function () {
             .text("avg: " + Math.round(yearStats.avg) + " mm");
     }
 
-    function drawRadialWeekLines(pos) {
-        var g = createSVGGroupRadial(pos, "weeklines");
-        var lines = g
-            .selectAll("line")
-            .data(yearData.weeks)
-            .enter()
-            .append("line")
-            .attr("y2", -barHeight)
-            .style("stroke", "#999999")
-            .style("stroke-width", ".5px")
-            .attr("transform", function (d, i) {
-                return "rotate(" + i * 360 / yearData.weeks.length + ")";
-            });
-    }
-
     function drawRadialAxisLabels(pos, parent) {
         var g = createSVGGroupRadial(pos, "axisText", parent);
         var xAxis = d3
@@ -399,7 +379,7 @@ var drawPrcp = function () {
             .remove();
     }
 
-    var calcTranslate = function (pos) {
+    function calcTranslate (pos) {
         return (
             (smallWidth * pos[0] + margin.left + margin.right * pos[0]) / 2 +
             "," +
@@ -407,7 +387,7 @@ var drawPrcp = function () {
         );
     };
 
-    var createSVGGroupRadial = function (pos, id, parent) {
+    function createSVGGroupRadial (pos, id, parent) {
         var g = parent
             .append("g")
             .attr("class", id)
@@ -427,25 +407,6 @@ function getYearFromDataset(wData, requestedYear) {
     return yearData;
 }
 
-function daysIntoYear(date) {
-    return (
-        (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
-            Date.UTC(date.getFullYear(), 0, 0)) /
-        24 /
-        60 /
-        60 /
-        1000
-    );
-}
-
-function daysInYear(year) {
-    var start = new Date(year, 0, 0),
-        end = new Date(year, 11, 31),
-        diff = end - start,
-        days = diff / (1000 * 60 * 60 * 24);
-    return days;
-}
-
 function getCumulativeYear(yData) {
     var all = 0;
     yData.weeks.map(function (d) {
@@ -458,16 +419,6 @@ function getMaxYear(yData) {
     var max = 0;
     yData.weeks.map(function (d) {
         max = d.value / 10 > max ? d.value / 10 : max;
-    });
-    return max;
-}
-
-function getMaxForYears(data) {
-    var max = 0;
-    data.years.map(function (d) {
-        d.weeks.map(function (dd) {
-            max = dd.value / 10 > max ? dd.value / 10 : max;
-        });
     });
     return max;
 }
