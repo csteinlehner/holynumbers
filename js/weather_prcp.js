@@ -112,7 +112,7 @@ var drawPrcp = function () {
         d3.select("#years-to-select").property("value", nextSelection);
         updateRender(nextSelection.toString());
         checkButtonVis(nextSelection);
-        
+
     }
 
     function selectPrev() {
@@ -200,44 +200,22 @@ var drawPrcp = function () {
         drawRadialMonthLabels(pos, parent);
         createSVGGroupRadial(pos, "center-label", parent);
         drawCenterLabel(pos, cntr, parent, yearStats);
-        // createSVGGroupRadial(pos, "avg-circle-label", parent);
-        // drawAvgLabel(pos, cntr, yearStats);
+        createSVGGroupRadial(pos, "max-circle", parent);
+        drawMaxCircle(pos, cntr, yearStats);
     }
 
-    function drawAvgLabel(pos, cntr, yearStats) {
-        var labelRadius = arcHeight(10);
-        var g = d3.select("#vis-" + cntr).select(".avg-circle-label");
-        g.selectAll("*").remove();
-        g
-            .append("def")
-            .append("path")
-            .attr("id", "avg-label-path")
-            .attr(
-                "d",
-                "m" + 0 + " " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,0 0.01 0"
-            );
-        g
-            .append("text")
-            .classed("avg-label noselect", true)
-            .style("text-anchor", "middle")
-            .append("textPath")
-            .attr("xlink:href", "#avg-label-path")
-            .attr("startOffset", '50%')
-            // .attr("style","fill: "+)
-            .text("avg: " +Math.round(yearStats.avg) + " mm");
-    }
 
     function updateRadialYearPrcp(yearData, cntr, pos) {
         var yearStats = getYearStats(yearData);
-        
+
         updateAvgCircle(pos, yearStats, cntr);
-       
+
         var selection = d3
             .select("#vis-" + cntr)
             .select(".bars")
             .selectAll(".weekbar-" + cntr)
             .data(yearData.weeks);
-        
+
         selection
             .enter()
             .append("path")
@@ -259,7 +237,40 @@ var drawPrcp = function () {
 
         selection.exit().remove();
         drawCenterLabel(pos, cntr, parent, yearStats);
-        // drawAvgLabel(pos, cntr, yearStats);
+        drawMaxCircle(pos, cntr, yearStats);
+    }
+
+    function drawMaxCircle(pos, cntr, yearStats) {
+        var g = d3.select("#vis-" + cntr).select(".max-circle");
+        var labelRadius = arcHeight(yearStats.max);
+        labelRadius = (labelRadius > barHeight) ? barHeight : labelRadius;
+        g.selectAll("*").remove();
+        g.append("def")
+            .append("path")
+            .attr("id", "max-path-" + cntr)
+            .attr(
+                "d",
+                "m" + 0 + " " + -labelRadius + " a" + (labelRadius+2) + " " + (labelRadius+2) + " 0 1,0 0.01 0"
+            );
+
+        g
+            .append("path")
+            .classed("max-path", true)
+            .classed(cntr + "-stroke", true)
+            .attr(
+                "d",
+                "m" + 0 + " " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,0 0.01 0"
+            );
+
+        g
+            .append("text")
+            .classed("max-label noselect", true)
+            .style("text-anchor", "middle")
+            .append("textPath")
+            .attr("xlink:href", "#max-path-" + cntr)
+            .attr("startOffset", '50%')
+            // .attr("style","fill: "+)
+            .text("max: " + Math.round(yearStats.max) + " mm");
     }
 
     function calcArc(dd, i, yearData) {
@@ -279,11 +290,11 @@ var drawPrcp = function () {
             .attr("r", function (d) {
                 return arcHeight(d);
             })
-            .classed("axis-circle",true);
+            .classed("axis-circle", true);
 
-            circles.filter(function (d){
-                return d === 0;
-            }).classed("axis-circle-zero", true);
+        circles.filter(function (d) {
+            return d === 0;
+        }).classed("axis-circle-zero", true);
     }
 
     function drawRadialMonthLines(pos, parent) {
@@ -337,7 +348,7 @@ var drawPrcp = function () {
         g
             .append("circle")
             .attr("r", arcHeight(yearStats.avg))
-            .attr("class", "avg-circle " + cntr+"-fill");
+            .attr("class", "avg-circle-inner " + cntr + "-fill");
     }
 
     function updateAvgCircle(pos, yearStats, cntr) {

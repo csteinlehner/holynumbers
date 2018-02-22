@@ -5,7 +5,7 @@
    after all.
    ---------------------------------------------------------*/
    body {
-    background-color:#F5F5F5;
+    background-color:#F8F8F8;
     font-family: 'Podkova', sans-serif;
     color: #333;
     }
@@ -37,6 +37,13 @@ a:active { color:#fb0e02; }
     .berlin-fill{
         fill:rgb(234, 68, 63);
     }
+    .jerusalem-stroke{
+        stroke:rgb(18, 183, 243);
+    }
+    .berlin-stroke{
+        stroke:rgb(234, 68, 63);
+    }
+
 
     .weekbar-jerusalem {
         fill:rgb(18, 183, 243);
@@ -83,13 +90,13 @@ a:active { color:#fb0e02; }
         font-size: 1.5em;
         fill: rgb(150,150,150); 
     }
-    .avg-circle{
-        opacity: 0.5;
+    .avg-circle-inner{
+        opacity: 0.3;
         stroke: none;
-        stroke-width: 3px;
+        /* stroke-width: 3px; */
     }
     .monthline{
-        stroke: #F5F5F5;
+        stroke: #F8F8F8;
         stroke-width: 10;
     }
     .monthlabels{
@@ -163,13 +170,18 @@ a:active { color:#fb0e02; }
       .navbtn:active{
         color:red;
     }
-
-    .avg-label{
+    .max-path{
+        fill: none;
+        stroke-width: 15px;
+        opacity: 0.3;
+    }
+    .max-label{
         font-family: "Roboto Condensed", sans-serif;
         font-weight: 300;
+        font-size: 0.75em;
         letter-spacing: .1em; 
-        letter-spacing: .1em; 
-        fill: rgb(150,150,150); 
+        /* fill: rgb(150,150,150);  */
+        fill: white;
     }
     .axis-circle{
         fill: none;
