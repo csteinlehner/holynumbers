@@ -112,6 +112,7 @@ var drawPrcp = function () {
         d3.select("#years-to-select").property("value", nextSelection);
         updateRender(nextSelection.toString());
         checkButtonVis(nextSelection);
+        
     }
 
     function selectPrev() {
@@ -138,8 +139,8 @@ var drawPrcp = function () {
         svg.selectAll("*").remove();
         yearDataIL = getYearFromDataset(allYearsIL, requestedYear);
         yearDataDE = getYearFromDataset(allYearsDE, requestedYear);
-        initRadialYearPrcp(yearDataIL, "Jerusalem", [1, 0]);
-        initRadialYearPrcp(yearDataDE, "Berlin", [3, 0]);
+        initRadialYearPrcp(yearDataIL, "jerusalem", [1, 0]);
+        initRadialYearPrcp(yearDataDE, "berlin", [3, 0]);
         initToolTip();
     }
 
@@ -153,18 +154,13 @@ var drawPrcp = function () {
     function updateRender(requestedYear) {
         yearDataIL = getYearFromDataset(allYearsIL, requestedYear);
         yearDataDE = getYearFromDataset(allYearsDE, requestedYear);
-        updateRadialYearPrcp(yearDataIL, "Jerusalem", [1, 0]);
-        updateRadialYearPrcp(yearDataDE, "Berlin", [3, 0]);
+        updateRadialYearPrcp(yearDataIL, "jerusalem", [1, 0]);
+        updateRadialYearPrcp(yearDataDE, "berlin", [3, 0]);
     }
 
     function initRadialYearPrcp(yearData, cntr, pos) {
         var yearStats = getYearStats(yearData);
         var parent = svg.append("g").attr("id", "vis-" + cntr);
-
-        var maxtooltip = d3.select("#weather").append("div")
-            .attr("class", "tooltip")
-            .attr("id", "maxtooltip-" + cntr)
-            .style("opacity", 1);
 
         drawCircles(pos, parent);
         drawRadialMonthLines(pos, parent);
@@ -177,7 +173,7 @@ var drawPrcp = function () {
             .append("path")
             .attr("class", "weekbar-" + cntr)
             .attr("id", function (d) {
-                return cntr+"-"+d.key;
+                return cntr + "-" + d.key;
             })
             .each(function (dd, i) {
                 calcArc(dd, i, yearData);
@@ -204,19 +200,44 @@ var drawPrcp = function () {
         drawRadialMonthLabels(pos, parent);
         createSVGGroupRadial(pos, "center-label", parent);
         drawCenterLabel(pos, cntr, parent, yearStats);
+        // createSVGGroupRadial(pos, "avg-circle-label", parent);
+        // drawAvgLabel(pos, cntr, yearStats);
+    }
+
+    function drawAvgLabel(pos, cntr, yearStats) {
+        var labelRadius = arcHeight(10);
+        var g = d3.select("#vis-" + cntr).select(".avg-circle-label");
+        g.selectAll("*").remove();
+        g
+            .append("def")
+            .append("path")
+            .attr("id", "avg-label-path")
+            .attr(
+                "d",
+                "m" + 0 + " " + -labelRadius + " a" + labelRadius + " " + labelRadius + " 0 1,0 0.01 0"
+            );
+        g
+            .append("text")
+            .classed("avg-label noselect", true)
+            .style("text-anchor", "middle")
+            .append("textPath")
+            .attr("xlink:href", "#avg-label-path")
+            .attr("startOffset", '50%')
+            // .attr("style","fill: "+)
+            .text("avg: " +Math.round(yearStats.avg) + " mm");
     }
 
     function updateRadialYearPrcp(yearData, cntr, pos) {
         var yearStats = getYearStats(yearData);
-
+        
         updateAvgCircle(pos, yearStats, cntr);
-
+       
         var selection = d3
             .select("#vis-" + cntr)
             .select(".bars")
             .selectAll(".weekbar-" + cntr)
             .data(yearData.weeks);
-
+        
         selection
             .enter()
             .append("path")
@@ -238,6 +259,7 @@ var drawPrcp = function () {
 
         selection.exit().remove();
         drawCenterLabel(pos, cntr, parent, yearStats);
+        // drawAvgLabel(pos, cntr, yearStats);
     }
 
     function calcArc(dd, i, yearData) {
@@ -257,10 +279,11 @@ var drawPrcp = function () {
             .attr("r", function (d) {
                 return arcHeight(d);
             })
-            .style("fill", "none")
-            .style("stroke", "#999999")
-            // .style("stroke-dasharray", function(d,i){return String(i+1*4)+","+String(i+1*8)})
-            .style("stroke-width", ".5px");
+            .classed("axis-circle",true);
+
+            circles.filter(function (d){
+                return d === 0;
+            }).classed("axis-circle-zero", true);
     }
 
     function drawRadialMonthLines(pos, parent) {
@@ -270,7 +293,7 @@ var drawPrcp = function () {
             .data(monthNames)
             .enter()
             .append("line")
-            .attr("y1", -innerRing)
+            .attr("y1", -innerRing - 5)
             .attr("y2", -barHeight - 10)
             .classed("monthline", true)
             .attr("transform", function (d, i) {
@@ -314,7 +337,7 @@ var drawPrcp = function () {
         g
             .append("circle")
             .attr("r", arcHeight(yearStats.avg))
-            .attr("class", "avg-circle-" + cntr);
+            .attr("class", "avg-circle " + cntr+"-fill");
     }
 
     function updateAvgCircle(pos, yearStats, cntr) {
@@ -379,7 +402,7 @@ var drawPrcp = function () {
             .remove();
     }
 
-    function calcTranslate (pos) {
+    function calcTranslate(pos) {
         return (
             (smallWidth * pos[0] + margin.left + margin.right * pos[0]) / 2 +
             "," +
@@ -387,7 +410,7 @@ var drawPrcp = function () {
         );
     };
 
-    function createSVGGroupRadial (pos, id, parent) {
+    function createSVGGroupRadial(pos, id, parent) {
         var g = parent
             .append("g")
             .attr("class", id)
