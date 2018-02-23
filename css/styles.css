@@ -1,245 +1,164 @@
 /* ---------------------------------------------------------
-   HTML5 Bones
-   This stylesheet contains print styling and a section for 
-   you to simply add your own. This is a basic template 
-   after all.
-   ---------------------------------------------------------*/
-   body {
-    background-color:#F8F8F8;
-    font-family: 'Podkova', sans-serif;
-    color: #333;
-    }
-/* Default link styling */
-a:link { color:#0271fb; }
-a:visited { color:#bd02fb; }
-a:hover, a:focus { color:#333; }
-a:active { color:#fb0e02; }
-    
-    
-    
-/* ---------------------------------------------------------
-   Viz styles
-   ---------------------------------------------------------*/
-
-    .bar-ils {
-        fill:#7f9bdb;
-        stroke:none;
-        opacity: 0.5;
-    }
-    .bar-de {
-        fill:#be6347;
-        stroke:none;
-    }
-
-    .jerusalem-fill{
-        fill:rgb(18, 183, 243);
-    }
-    .berlin-fill{
-        fill:rgb(234, 68, 63);
-    }
-    .jerusalem-stroke{
-        stroke:rgb(18, 183, 243);
-    }
-    .berlin-stroke{
-        stroke:rgb(234, 68, 63);
-    }
-
-
-    .weekbar-jerusalem {
-        fill:rgb(18, 183, 243);
-        stroke:none;
-    }
-
-    .weekbar-berlin {  
-        fill:rgb(234, 68, 63);
-        stroke:none;
-    }
- 
-    .weekbar-jerusalem:hover {
-        fill: rgb(64, 200, 249);
-        stroke: white;
-    }
-
-    .weekbar-berlin:hover {
-        fill: rgb(226, 125, 122);
-        stroke: white;
-    }
-    .x path{
-        stroke: none;
-    }
-    .axis line{
-      fill: none;
-      stroke: none;
-    }
-    .centerlabel{
-        fill: rgb(150,150,150);
-        font-family: "Roboto Condensed", sans-serif;
-        text-transform: uppercase;
-        font-size: 0.9em;
-        font-weight: 300;
-    }
-    .centerlabel-avg{
-        fill: rgb(150,150,150);
-        font-family: "Roboto Condensed", sans-serif;
-        font-size: 0.75em;
-        font-weight: 300;
-    }
-    .tick text{
-        font-family: "Roboto Condensed", sans-serif;
-        font-weight: 300;
-        font-size: 1.5em;
-        fill: rgb(150,150,150); 
-    }
-    .avg-circle-inner{
-        opacity: 0.3;
-        stroke: none;
-        /* stroke-width: 3px; */
-    }
-    .monthline{
-        stroke: #F8F8F8;
-        stroke-width: 10;
-    }
-    .monthlabels{
-        font-family: "Roboto Condensed", sans-serif;
-        font-weight: 300;
-        fill: rgb(150,150,150); 
-    }
-    div.tooltip {	
-        position: absolute;			
-        text-align: left;	
-        font-family: "Roboto Condensed", sans-serif;
-        font-weight: 300;
-        color: #333;
-        padding: 2px 5px 2px 2px;				
-        font: 1.5em;		
-        background: white;	
-        border: 0px;		
-        /* border-radius: 8px;			 */
-        pointer-events: none;			
-    }
-
-    .noselect {
-        -webkit-touch-callout: none; /* iOS Safari */
-          -webkit-user-select: none; /* Safari */
-           -khtml-user-select: none; /* Konqueror HTML */
-             -moz-user-select: none; /* Firefox */
-              -ms-user-select: none; /* Internet Explorer/Edge */
-                  user-select: none; /* Non-prefixed version, currently
-                                        supported by Chrome and Opera */
-      }
-      
-      #year-navigation{
-        font-family: "Roboto Condensed", sans-serif;
-        font-weight: 300;
-        font-size: 1em;
-      }
-      #year-navigation select{
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -ms-appearance: none;
-        font-family: "Roboto Condensed", sans-serif;
-        font-size: 1.5em;
-        border: 0;
-        background: transparent;
-        background: url(../img/dropdown-arrow.png) no-repeat 90%;
-        background-position: 85% center;
-        height: 50px;
-        overflow: hidden;
-        padding: 2px 10px;
-        /* margin: 0 30px; */
-        width: 100px;
-        *width: 100px;
-        -webkit-appearance: none;
-        cursor: pointer;
-      }
-      select:focus{
-          outline: none;
-      }
-
-      .navbtn{
-        border: none;
-        background: none;
-        width: 170px;
-        cursor: pointer;
-        color: #333;
-      }
-      .navbtn:focus{
-          outline: none;
-          cursor: pointer;
-      }
-      .navbtn:active{
-        color:red;
-    }
-    .max-path{
-        fill: none;
-        stroke-width: 15px;
-        opacity: 0.3;
-    }
-    .max-label{
-        font-family: "Roboto Condensed", sans-serif;
-        font-weight: 300;
-        font-size: 0.75em;
-        letter-spacing: .1em; 
-        /* fill: rgb(150,150,150);  */
-        fill: white;
-    }
-    .axis-circle{
-        fill: none;
-        stroke: #999999;
-        stroke-width: .5px;
-    }
-    .axis-circle-zero{
-        fill: none;
-        stroke: #fff;
-        stroke-width: 3px;
-    }
-      /* #nextbtn::after{
-        display: none;
-        font-family: "Font Awesome 5 Solid";
-        content: "\f0da";
-      } */
-    /* ---------------------------------------------------------
    Page styles
    ---------------------------------------------------------*/
- .center{
-    display: flex;
-    align-items: center;
-    justify-content: center;
- }
+body {
+    background-color: #f8f8f8;
+    font-family: "Inconsolata", sans-serif;
+    /* color: #333; */
+    color: #263238;
+    font-size: 100%;
+}
+/* Default link styling */
+a:link {
+    color: #0271fb;
+}
+a:visited {
+    color: #bd02fb;
+}
+a:hover,
+a:focus {
+    color: #263238;
+}
+a:active {
+    color: #ff8f00;
+}
 
-    
+ol,
+ul {
+    list-style: none;
+}
+h1,
+h2, h3 {
+    /* font-family: "Noto serif", serif; */
+    font-family: "Nunito", sans-serif;
+    text-align: center;
+    /* font-family: "Quattrocento", serif; */
+}
+header h1 {
+    float: left;
+    font-size: 1.25em;
+}
+main p {
+    font-size: 1.1em;
+    line-height: 1.55em;
+    font-weight: 300;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+nav {
+    font-family: "Nunito", sans-serif;
+    font-size: 1.25em;
+}
+.o-wrapper{
+    min-height: calc(100vh - 200px);
+    display: block;
+    max-width: 900px;
+    padding-right: 30px;
+    padding-left: 30px; 
+    margin-left: auto;
+    margin-right: auto;
+}
+.c-main{
+    clear: both;
+}
+.o-header__nav {
+    float: right;
+}
+.o-header__nav ul {
+    display: inline-block;
+}
+.o-header__nav li {
+    margin-left: 1em;
+    display: inline-block;
+}
+.c-visnavigation{
+    display: flex;
+    justify-content: center;
+    /* margin-left: auto;
+    margin-right: auto;
+    width: 50%; */
+}
+.c-nav__list a:link,
+a:visited {
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
+}
+.c-nav__list a:hover {
+    color: #ff8f00;
+}
+
+.c-footer {
+    background-color: #263238;
+    padding: 32px 16px;
+    margin-top: 64px;
+    height: 80px;
+}
+
+.c-footer__info {
+    font-family: "Inconsolata", sans-serif;
+    color: #b0bec5;
+}
+.c-footer__info a {
+    text-decoration: underline;
+    cursor: pointer;
+    color: inherit;
+}
+.c-footer__info a:hover {
+    color: #ff8f00;
+}
+.c-footer__legal {
+    font-family: "Inconsolata", sans-serif;
+    color: #b0bec5;
+    margin: 1em 0em;
+}
+
 /* ---------------------------------------------------------
    Print styles
    ---------------------------------------------------------*/
 @media print {
     * {
-        color:#000 !important;
-        box-shadow:none !important;
-        text-shadow:none !important;
-        background:transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        background: transparent !important;
     }
-    html { background-color:#fff; }
+    html {
+        background-color: #fff;
+    }
     /* Hide navigation */
-    nav { display:none; }
+    nav {
+        display: none;
+    }
 
     /* Show link destinations in brackets after the link text */
-    a[href]:after { content: " (" attr(href) ") "; }
+    a[href]:after {
+        content: " (" attr(href) ") ";
+    }
     a[href] {
-        font-weight:bold;
-        text-decoration:underline;
-        color:#06c;
-        border:none;
+        font-weight: bold;
+        text-decoration: underline;
+        color: #06c;
+        border: none;
     }
-    /* Don't show link destinations for JavaScript or internal links */ 
-    a[href^="javascript:"]:after, a[href^="#"]:after { content:""; }
-    
+    /* Don't show link destinations for JavaScript or internal links */
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
     /* Show abbr title value in brackets after the text */
-    abbr[title]:after { content: " (" attr(title) ")"; }
-
-    figure { 
-        margin-bottom:1em; 
-        overflow:hidden;
+    abbr[title]:after {
+        content: " (" attr(title) ")";
     }
 
-    figure img { border:1px solid #000; }
+    figure {
+        margin-bottom: 1em;
+        overflow: hidden;
+    }
+
+    figure img {
+        border: 1px solid #000;
+    }
 }

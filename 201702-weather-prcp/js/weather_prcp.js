@@ -6,7 +6,7 @@ var margin = {
 };
 
 var width = 900 - margin.left - margin.right;
-var height = 600 - margin.top - margin.bottom;
+var height = 480 - margin.top - margin.bottom;
 var smallWidth = 400;
 var smallHeight = 400;
 var innerRing = 40;
@@ -185,7 +185,7 @@ var drawPrcp = function () {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html("Week: " + d.key + "<br />" + d.value / 10 + " mm")
+                tooltip.html("Week: " + d.key + "<br />" + Math.round(d.value / 10) + " mm")
                     // .style("transform","rotate("+parseFloat(d.startAngle)*(180 / Math.PI)+"deg)")
                     .style("left", (d3.event.pageX + 20) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
