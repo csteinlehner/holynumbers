@@ -72,6 +72,7 @@ var drawWeather = function(requestedYear) {
 
     var svg = d3
         .select("#weather")
+        .append("svg")
         .attr("width", visWidth + margin.left + margin.right)
         .attr("height", visHeight + margin.top + margin.bottom);
 

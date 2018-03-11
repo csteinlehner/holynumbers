@@ -12,7 +12,7 @@ var smallHeight = 400;
 var innerRing = 40;
 var countryFileDE = "GME00111445-PRCP.json",
     countryFileIL = "IS000006771-PRCP.json";
-var maxHeight = 120;
+var maxTemp = 120;
 
 var monthNames = [
     "Jan",
@@ -40,7 +40,7 @@ var drawPrcp = function () {
         .scaleLinear()
         .range([innerRing, barHeight])
         // .domain([0, getMaxInYear(yearData, "PRCP")]);
-        .domain([0, maxHeight]);
+        .domain([0, maxTemp]);
 
     var svg = d3
         .select("#weather")
