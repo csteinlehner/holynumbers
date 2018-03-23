@@ -14,7 +14,32 @@
     <script src="https://use.fontawesome.com/releases/v5.0.6/js/fontawesome.js"></script>
 
     <!--[if lt IE 9]><script src="../js/html5shiv-printshiv.js" media="all"></script><![endif]-->
-
+    <!-- Matomo -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//matomo.csteinlehner.de/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', '2']);
+            var d = document,
+                g = d.createElement('script'),
+                s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+    <noscript>
+        <!-- Matomo Image Tracker-->
+        <img src="http://matomo.csteinlehner.de/piwik.php?idsite=2&rec=1" style="border:0" alt="" />
+        <!-- End Matomo -->
+    </noscript>
 </head>
 
 <body>
@@ -36,12 +61,20 @@
         </header>
         <main role="main" class="c-main">
             <h1>About</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.</p>
+            <p>Holy numbers is a side project by <a href="https://csteinlehner.com" target="_blank">Christoph Steinlehner</a>. I'm an interaction &amp; information designer usually based
+                in Berlin, Germany. But currently I spend a lot of time in Jerusalem and travel through Israel and the Palestinian
+                Territories.
+            </p>
+            <p>Living here in the Holy Land and having uncommon cultural, religious and every day experiences inspired me to
+                question my personal views with statistical data. Always having my german nurtured mind as background I want
+                to challenge some prejudices with numbers.
+            </p>
+            <p>Being a designer doing data visualizations is my natural approach to this endeavor. Of course I also write a
+                few words about every visualization. But I'm not a journalist nor a scientist, so take everything you see
+                here with a grain of salt.
+            </p>
+            <p>I'm always open for feedback, ideas, etc. Get in touch via <a href="mailto:christoph@csteinlehner.com">e-mail</a> or hit me up on <a href="https://twitter.com/csteinlehner" target="_blank">Twitter</a>.
+            </p>
         </main>
     </div>
     <footer role="contentinfo" class="c-footer">
