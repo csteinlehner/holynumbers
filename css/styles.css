@@ -28,6 +28,7 @@ ol,
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 h1,
 h2,
@@ -44,6 +45,10 @@ h1 a:focus {
 }
  header h1 a:link,header h1 a:visited {
      color: #263238;
+ }
+ header{
+     display: block;
+     margin: 20px 0 100px 0;
  }
 header h1 {
     float: left;
@@ -68,7 +73,6 @@ nav {
     max-width: 980px;
     margin: 0 auto;
     padding: 20px 20px 80px 20px;
-
 }
 .c-main {
     clear: both;
@@ -82,10 +86,11 @@ nav {
 }
 header h1{
     padding: 0;
+    margin: 0;
 }
-.o-header__nav ul {
-    display: block;
-}
+/* .o-header__nav ul {
+    margin: 0;
+} */
 .o-header__nav li {
     margin-left: 1em;
     display: inline-block;
@@ -137,12 +142,12 @@ header h1{
     margin: 1em 0em;
 }
 .c-project__list-item {
-    margin: 120px 0;
+    margin: 0 0 120px 0;
+    padding: 0;
 }
 
 .c-project__overlay {
     position: absolute;
-    display: table-cell;
     top: 0;
     left: 0;
     width: 100%;
@@ -153,7 +158,6 @@ header h1{
     background-color: #ff8f00;
 }
 .c-project__overlay:hover {
-    /* transition: opacity .5s; */
     opacity: 0.5;
 }
 
