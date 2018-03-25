@@ -2,10 +2,39 @@
 <html lang="en">
 
 <head>
+    <!-- COMMON TAGS -->
     <meta charset="utf-8">
-    <title>Weather</title>
-    <meta name="description" content="">
+    <title>The weather is nice, right? - holy numbers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <!-- Search Engine -->
+    <meta name="description" content="Comparison of weather temperature data between Jersualem and Berlin">
+    <meta name="image" content="https://holynumbers.csteinlehner.com/siteimage.png">
+    <meta name="keywords" content="data visualization, holy land, Jerusalem, Berlin, dataviz, Israel, Palestine, Palestinian Territories, Germany, project, infographic, Christoph Steinlehner"
+    />
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="10 days">
+    <!-- data visualization, holy land -->
+
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="The weather is nice, right? - holy numbers">
+    <meta itemprop="description" content="Comparison of weather data between Jersualem and Berlin">
+    <meta itemprop="image" content="https://holynumbers.csteinlehner.com/siteimage.png">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="The weather is nice, right? - holy numbers">
+    <meta name="twitter:description" content="Comparison of weather data between Jersualem and Berlin">
+    <meta name="twitter:site" content="@csteinlehner">
+    <meta name="twitter:creator" content="@csteinlehner">
+    <meta name="twitter:image:src" content="https://holynumbers.csteinlehner.com/siteimage.png">
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="The weather is nice, right? - holy numbers">
+    <meta name="og:description" content="Comparison of weather data between Jersualem and Berlin">
+    <meta name="og:image" content="https://holynumbers.csteinlehner.com/siteimage.png">
+    <meta name="og:url" content="https://holynumbers.csteinlehner.com/">
+    <meta name="og:site_name" content="holy numbers">
+    <meta name="og:type" content="website">
+
+
     <link href="../css/normalize.css" rel="stylesheet" media="all">
     <link href="../css/styles.css" rel="stylesheet" media="all">
     <link href="css/vis-styles.css" rel="stylesheet" media="all">
@@ -19,26 +48,32 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
     <script type="text/javascript" src="js/weather.js"></script>
-<!-- Matomo -->
-<script type="text/javascript">
-    var _paq = _paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//matomo.csteinlehner.de/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', '2']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <!-- End Matomo Code -->
-  <noscript>
-  <!-- Matomo Image Tracker-->
-<img src="http://matomo.csteinlehner.de/piwik.php?idsite=2&rec=1" style="border:0" alt="" />
-<!-- End Matomo -->
-</noscript>
+    <!-- Matomo -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//matomo.csteinlehner.de/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', '2']);
+            var d = document,
+                g = d.createElement('script'),
+                s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+    <noscript>
+        <!-- Matomo Image Tracker-->
+        <img src="http://matomo.csteinlehner.de/piwik.php?idsite=2&rec=1" style="border:0" alt="" />
+        <!-- End Matomo -->
+    </noscript>
 </head>
 
 <body>
@@ -59,15 +94,13 @@
             </nav>
         </header>
         <main role="main" class="c-main">
-            <h1>Weather Jerusalem / Berlin</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
-            </p>
-            <h2>How was the temperature?</h2>
+            <h1>The weather is nice, right?</h1>
+
+            <p>One ongoing topic when people hear I'm in Jerusalem is the weather. Everybody in Germany is asking me how warm
+                it is and at the same time is complaining about how bad the weather is in Germany. Of course it is the common
+                small talk topic and for me it is just expected, that it is warm in Jerusalem. Unless it is winter and 10
+                degrees outside means 15 degrees in the flat and I'm freezing in front of the computer.</p>
+            <h2>Temperature comparison between Jerusalem and Berlin</h2>
             <div id="year-navigation" class="c-visnavigation">
                 <button id="prevbtn" class="navbtn noselect">
                     <i class="fas fa-caret-left fa-fw"></i>previous year</button>
@@ -81,24 +114,31 @@
                     drawWeather();
                 </script>
             </div>
+            <p>Looking at the data it comes at no surprise that the average temperature in Jerusalem is indeed nearly 10 degrees
+                above Berlins temperature. It's also really uncommon to have subzero temperature in Jerusalem. But proper
+                heating and isolation in Jerusalem houses is also not common. So in winter it often feels colder than Germany.</p>
+
+            <p>So, ok the data is a little bit stating the obvious, but looking at
+                <a href="../weather-prcp/">weather data like rain has some surprises</a>.</p>
+
             <h3>Data</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
+            <p>
+                Beginning this project I thought getting historical weather data should be easy. But searching for historical data I ran
+                into a lot of pay walls with sometimes quite expensive rates or total unclear costs. The <a href="https://www.ncdc.noaa.gov/cdo-web/">NOAA National Climatic
+                Data Center</a> provides some free <a href="https://www.ncdc.noaa.gov/data-access/quick-links#ghcn">global historical weather data</a>.
+                To use this data in my visualizations I wrote <a href="https://github.com/csteinlehner/ghcn-dly-convert">small python scripts</a>.
+                The used data is accessible for <a href="data/IS000006771.json">Jerusalem (json)</a> and <a href="data/GME00111445.json">Berlin(json)</a>.
             </p>
         </main>
     </div>
     <footer role="contentinfo" class="c-footer">
         <div class="c-footer__info">A side project by interaction & information designer
-            <a href="https://csteinlehner.com" target="_blank">Christoph Steinlehner</a>.
+            <a href="https://csteinlehner.com">Christoph Steinlehner</a>.
         </div>
         <div class="c-footer__legal">
             <small>
-                <a href="http://csteinlehner.com/impressum/" target="_blank">Impressum</a> /
-                <a href="http://csteinlehner.com/datenschutz/" target="_blank">Datenschutzerkl&auml;rung</a>
+                <a href="http://csteinlehner.com/impressum/">Impressum</a> /
+                <a href="http://csteinlehner.com/datenschutz/">Datenschutzerkl&auml;rung</a>
             </small>
         </div>
     </footer>
