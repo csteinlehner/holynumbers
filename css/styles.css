@@ -81,17 +81,17 @@ nav {
     margin-left: auto;
     margin-right: auto;
 }
-.o-header__nav {
+.c-header__nav {
     float: right;
 }
 header h1{
     padding: 0;
     margin: 0;
 }
-/* .o-header__nav ul {
+/* .c-header__nav ul {
     margin: 0;
 } */
-.o-header__nav li {
+.c-header__nav li {
     margin-left: 1em;
     display: inline-block;
 }
@@ -110,12 +110,6 @@ header h1{
 }
 .c-nav__list a:hover {
     color: #ff8f00;
-}
-
-.c-prefooter{
-    display:block;
-    margin: 0;
-    content: "";
 }
 .c-footer {
     background-color: #263238;
