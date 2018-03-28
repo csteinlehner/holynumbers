@@ -21,26 +21,32 @@
     <!-- <script type="text/javascript" src="js/weather.js"></script> -->
     <script type="text/javascript" src="js/weather_prcp.js"></script>
     <!-- <script type="text/javascript" src="js/weather.js"></script> -->
-<!-- Matomo -->
-<script type="text/javascript">
-    var _paq = _paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//matomo.csteinlehner.de/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', '2']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <!-- End Matomo Code -->
-  <noscript>
-  <!-- Matomo Image Tracker-->
-<img src="http://matomo.csteinlehner.de/piwik.php?idsite=2&rec=1" style="border:0" alt="" />
-<!-- End Matomo -->
-</noscript>
+    <!-- Matomo -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//matomo.csteinlehner.de/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', '2']);
+            var d = document,
+                g = d.createElement('script'),
+                s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+    <noscript>
+        <!-- Matomo Image Tracker-->
+        <img src="http://matomo.csteinlehner.de/piwik.php?idsite=2&rec=1" style="border:0" alt="" />
+        <!-- End Matomo -->
+    </noscript>
 </head>
 
 <body>
@@ -61,15 +67,12 @@
             </nav>
         </header>
         <main role="main" class="c-main">
-            <h1>Weather Jerusalem / Berlin</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
+            <h1> It never rains in Jerusalem</h1>
+            <p>If you spend time in Jerusalem you usually don't see any rain for month. So sometimes it feels like it never
+                rains here. But in winter time of course there is rain and sometimes massive amounts. But especially in comparison
+                to Berlin you have the feeling that there is not a lot precipitation in Jerusalem.
             </p>
-            <h2>How much did it rain each week?</h2>
+            <h2>Weekly rainfall in Jerusalem and Berlin</h2>
             <div id="year-navigation" class="c-visnavigation">
                 <button id="prevbtn" class="navbtn noselect">
                     <i class="fas fa-caret-left fa-fw"></i>previous year</button>
@@ -80,18 +83,26 @@
             </div>
             <div id='weather'>
                 <script>
-                    //   drawWeather('2011');
                     drawPrcp();
                 </script>
             </div>
-            <h3>Data</h3>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
-                to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
+            <p>After
+                <a href="../weather/">comparing the temperature</a> and haven't been surprised there I was amazed how much it really rains in Jerusalem.
+                The weekly average is roughly the same but the distribution is totally different. In Berlin it rains around
+                the year, with small spikes in the summer. In Jerusalem you usually won't see rain from April to September,
+                but the amount of rain during some weeks of winter are multiples of what you usually see in Berlin.
             </p>
+            <h3>Data</h3>
+            <p>The datasource for this visualization is the
+                <a href="(https://www.ncdc.noaa.gov/data-access/quick-links#ghcn">historical weather data</a> from
+                <a href="https://www.ncdc.noaa.gov/cdo-web/">NOAA National Climatic Data Center</a>, the same as for the
+                <a href="../weather/">temperature comparison</a>.
+            </p>
+            <p>For this visualization I added up weekly values to smoothen out daily variations. The data is brought to JSON
+                format via
+                <a href="https://github.com/csteinlehner/ghcn-dly-convert">small scripts you can download at github</a>. The data is available for
+                <a href="data/IS000006771-PRCP.json">Jerusalem(json)</a> and
+                <a href="data/GME00111445-PRCP.json">Berlin(json)</a>.</p>
         </main>
     </div>
     <footer role="contentinfo" class="c-footer">
