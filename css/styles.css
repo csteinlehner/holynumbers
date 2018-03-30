@@ -89,9 +89,6 @@ header h1{
     padding: 0;
     margin: 0;
 }
-/* .c-header__nav ul {
-    margin: 0;
-} */
 .c-header__nav li {
     margin-left: 1em;
     display: inline-block;
@@ -140,6 +137,9 @@ header h1{
     margin: 0 0 120px 0;
     padding: 0;
 }
+.c-project__list-item a{
+    text-decoration: none;
+}
 
 .c-project__overlay {
     position: absolute;
@@ -171,7 +171,6 @@ header h1{
 .c-project__left {
     text-align: left;
 }
-
 
 @media screen and (min-width: 980px){
     .c-project__left {
@@ -225,8 +224,6 @@ header h1{
     margin-right: -50%; 
     transform: translate(-50%, -50%);
 }
-
-
 
 
 /* ---------------------------------------------------------
