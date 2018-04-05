@@ -79,9 +79,10 @@
 <body>
     <div class="o-wrapper">
         <header role="banner" class="c-header__wrapper">
-            <h1>
-                <a href="../">holy numbers</a>
-            </h1>
+            <div style="display:flex; align-items: center; float:left;">
+                <img src="/favicon-32x32.png" width="24" height="24" style="float:left">
+                <h1 style="margin-left:8px"><a href="../">holy numbers</a></h1>
+            </div>
             <nav role="navigation" class="c-header__nav">
                 <ul>
                     <li class="c-nav__list">
@@ -96,10 +97,12 @@
         <main role="main" class="c-main">
             <h1>The weather is nice, right?</h1>
 
-            <p>One ongoing topic when people hear I'm in Jerusalem is the weather. Everybody in Germany is asking me how warm
-                it is and at the same time is complaining about how bad the weather is in Germany. Of course it is the common
-                small talk topic and for me it is just expected, that it is warm in Jerusalem. Unless it is winter and 10
-                degrees outside means 15 degrees in the flat and I'm freezing in front of the computer.</p>
+            <p>The first topic when people hear I'm in Jerusalem is often the weather. Everybody enviously speaks about how
+                warm it must be and how bad the weather in Germany is. Of course this is just some kind of small talk topic
+                but weather is also a connecting topic. For me right now it is just expected that I'm feeling warm most of
+                the time in Jerusalem. Unless it is winter and 10 degrees outside translate to 15 degrees in the apartment.
+                The houses in Jerusalem are not built for colder temperatures. Proper isolation and heating is not really
+                common in this area. So winter time means freezing in front of the computer in double layered clothes.</p>
             <h2>Temperature comparison between Jerusalem and Berlin</h2>
             <div id="year-navigation" class="c-visnavigation">
                 <button id="prevbtn" class="navbtn noselect">
@@ -114,20 +117,27 @@
                     drawWeather();
                 </script>
             </div>
-            <p>Looking at the data it comes at no surprise that the average temperature in Jerusalem is indeed nearly 10 degrees
-                above Berlins temperature. It's also really uncommon to have subzero temperature in Jerusalem. But proper
-                heating and isolation in Jerusalem houses is also not common. So in winter it often feels colder than Germany.</p>
+            <p>Looking into the data, it is not surprising that the average temperature in Jerusalem is indeed nearly 10 degrees
+                above Berlins average temperature. It's really uncommon to have subzero temperature in Jerusalem. But in
+                Berlin you get every year this freezing cold days or sometimes even weeks (look at 2010). Summer peak temperatures
+                are around 35 degrees in Jerusalem and with that not that much higher then in Berlin. But the warmth is more
+                steady in Jerusalem.</p>
 
-            <p>So, ok the data is a little bit stating the obvious, but looking at
-                <a href="../weather-prcp/">weather data like rain has some surprises</a>.</p>
+            <p>The data shows what everybody expects and is not revealing a lot of unexpected. But looking at a different weather
+                aspect like
+                <a href="../weather-prcp/">rain has some surprises.</a>
+            </p>
 
             <h3>Data</h3>
             <p>
-                Beginning this project I thought getting historical weather data should be easy. But searching for historical data I ran
-                into a lot of pay walls with sometimes quite expensive rates or total unclear costs. The <a href="https://www.ncdc.noaa.gov/cdo-web/">NOAA National Climatic
-                Data Center</a> provides some free <a href="https://www.ncdc.noaa.gov/data-access/quick-links#ghcn">global historical weather data</a>.
-                To use this data in my visualizations I wrote <a href="https://github.com/csteinlehner/ghcn-dly-convert">small python scripts</a>.
-                The used data is accessible for <a href="data/IS000006771.json">Jerusalem (json)</a> and <a href="data/GME00111445.json">Berlin(json)</a>.
+                At the start of this project I thought getting historical weather data should be easy. But while searching for historical
+                data I ran into a lot of pay walls with sometimes quite expensive rates or even total unclear costs. The
+                <a href="https://www.ncdc.noaa.gov/cdo-web/">NOAA National Climatic Data Center</a> provides some free
+                <a href="https://www.ncdc.noaa.gov/data-access/quick-links#ghcn">global historical weather data</a>. The data has some small blank spaces and the latest complete year for
+                Berlin and Jerusalem was 2014. To use this data in these visualizations I wrote
+                <a href="https://github.com/csteinlehner/ghcn-dly-convert">small python scripts</a>. The used data is accessible for
+                <a href="data/IS000006771.json">Jerusalem (json)</a> and
+                <a href="data/GME00111445.json">Berlin(json)</a>.
             </p>
         </main>
     </div>
